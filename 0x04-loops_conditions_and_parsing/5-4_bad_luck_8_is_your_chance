@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Script that prints "Best School" 10 times, using "while" and include "Hi" at the 9th call.
+
+words='Best School'
+i=0
+
+while ((i < 10)); do
+    if ((i == 3)); then
+        printf "bad luck\n"
+	elif ((i == 7)); then
+        printf "good luck\n"
+    else
+		printf "%s\n" "$words"
+	fi
+    ((i++))
+done

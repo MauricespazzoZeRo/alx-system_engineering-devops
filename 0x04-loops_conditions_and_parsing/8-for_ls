@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Script that displays the content of the current directory in a list format without initial bumber and hyphen.
+
+for filename in *; do
+	# Check if file is not hidden
+	if [[ ! "$filename" == .* ]]; then
+		# extract name after dash
+		nodash_filename="${filename#*-}"
+		# print the extracted part in a list format
+		echo "$nodash_filename"
+	fi
+done

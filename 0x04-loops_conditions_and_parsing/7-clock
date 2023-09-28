@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Script that prints the time for 12 hours and 59 minutes.
+
+hours=0
+
+while ((hours <= 12)); do
+	minutes=1
+	printf "Hour: %d\n" "$hours"
+	while ((minutes <= 59)); do
+		printf "%d\n" "$minutes"
+		((minutes++))
+	done
+	((hours++))
+done
