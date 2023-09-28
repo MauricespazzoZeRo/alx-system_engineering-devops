@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Script that displays "Best School" 10 times.
+
 words='Best School'
 
 for ((i = 0; i < 10; i++)); do
