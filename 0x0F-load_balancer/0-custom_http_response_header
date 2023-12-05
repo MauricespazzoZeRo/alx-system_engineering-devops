@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Script to install and setup nginx
+
+# Install Nginx if not already installed
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Get the hostname of the server
+hostname=$(hostname)
+MY_ID=353061
+
+# check if hostname is correct
+if [[ $(hostname) =~ ^$MY_ID-web-[0-9]+ ]]; then
+    echo 'hostname properly configured'
+else
+    (>&2 echo 'hostname not configured properly...')
+    (>&2 echo 'please set hostname to pattern: 496-web-<server_id>...')
+    (>&2 echo 'Example: sudo hostnamectl set-hostname 496-web-<insert_server_id_here>')
+fi
+
+# Update HTML files
+echo 'Hello World!' > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Configure Nginx for redirection
+sudo echo "server {
+	listen 80;
+	server_name _;
+
+	location / {
+		root /var/www/html;
+		index index.html;
+		add_header Content-Type text/html;
+		add_header X-Served-By $hostname;
+		return 200;
+	}
+
+	location /redirect_me {
+		return 301 http://www.google.com/;
+	}
+
+	error_page 404 /404.html;
+	location = /404 {
+    	root /var/www/html;
+    	internal;
+	}
+
+}" | sudo tee /etc/nginx/sites-available/default > /dev/null
+
+# Restart Nginx
+sudo kill -s HUP $(cat /var/run/nginx.pid)
